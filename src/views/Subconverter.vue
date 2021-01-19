@@ -4,23 +4,20 @@
       <el-col>
         <el-card>
           <div slot="header">
-            Subscription Converter
-            <svg-icon icon-class="github" style="margin-left: 20px" @click="goToProject" />
-
-            <div style="display: inline-block; position:absolute; right: 20px">{{ backendVersion }}</div>
+            订阅转换
           </div>
           <el-container>
             <el-form :model="form" label-width="80px" label-position="left" style="width: 100%">
-              <el-form-item label="模式设置:">
+              <el-form-item label="模式选择:">
                 <el-radio v-model="advanced" label="1">基础模式</el-radio>
-                <el-radio v-model="advanced" label="2">进阶模式</el-radio>
+                <el-radio v-model="advanced" label="2">高级模式</el-radio>
               </el-form-item>
               <el-form-item label="订阅链接:">
                 <el-input
                   v-model="form.sourceSubUrl"
                   type="textarea"
                   rows="3"
-                  placeholder="支持订阅或ss/ssr/vmess链接，多个链接每行一个或用 | 分隔"
+                  placeholder="支持订阅或ss/ssr/vmess链接"
                   @blur="saveSubUrl"
                 />
               </el-form-item>
@@ -36,9 +33,8 @@
                     style="width: 100%"
                     v-model="form.customBackend"
                     :fetch-suggestions="backendSearch"
-                    placeholder="动动小手，（建议）自行搭建后端服务。例：http://127.0.0.1:25500/sub?"
+                    placeholder="自定义后端服务地址"
                   >
-                    <el-button slot="append" @click="gotoGayhub" icon="el-icon-link">前往项目仓库</el-button>
                   </el-autocomplete>
                 </el-form-item>
                 <el-form-item label="远程配置:">
@@ -61,32 +57,40 @@
                         :value="item.value"
                       ></el-option>
                     </el-option-group>
-                    <el-button slot="append" @click="gotoRemoteConfig" icon="el-icon-link">配置示例</el-button>
                   </el-select>
                 </el-form-item>
-                <el-form-item label="Include:">
+                <el-form-item label="选择节点:">
                   <el-input v-model="form.includeRemarks" placeholder="节点名包含的关键字，支持正则" />
                 </el-form-item>
-                <el-form-item label="Exclude:">
+                <el-form-item label="排除节点:">
                   <el-input v-model="form.excludeRemarks" placeholder="节点名不包含的关键字，支持正则" />
                 </el-form-item>
-                <el-form-item label="FileName:">
+                <el-form-item label="文件名:">
                   <el-input v-model="form.filename" placeholder="返回的订阅文件名" />
                 </el-form-item>
                 <el-form-item label-width="0px">
-                  <el-row type="flex">
-                    <el-col>
-                      <el-checkbox v-model="form.nodeList" label="输出为 Node List" border></el-checkbox>
-                    </el-col>
-                    <el-popover placement="bottom" v-model="form.extraset">
+                  <el-row type="flex" justify="end">
+                    <el-button
+                      style="margin-top: 1px; width: 80px; height: 32px;"
+                      type="default"
+                      @click="dialogCustomConfigVisible = true"
+                      :loading="loading"
+                    >添加配置</el-button>
+                    <el-button
+                      style="margin-top: 1px; width: 80px; height: 32px;"
+                      type="default"
+                      @click="dialogUploadConfigVisible = true"
+                      :loading="loading"
+                    >上传配置</el-button>
+                    <el-popover placement="bottom" v-model="form.extraset" style="margin-left: 10px">
                       <el-row>
-                        <el-checkbox v-model="form.emoji" label="Emoji"></el-checkbox>
+                        <el-checkbox v-model="form.emoji" label="Emoji图标"></el-checkbox>
                       </el-row>
                       <el-row>
-                        <el-checkbox v-model="form.new_name" label="Clash New Field"></el-checkbox>
+                        <el-checkbox v-model="form.new_name" label="Clash新参数"></el-checkbox>
                       </el-row>
                       <el-row>
-                        <el-checkbox v-model="form.udp" @change="needUdp = true" label="启用 UDP"></el-checkbox>
+                        <el-checkbox v-model="form.udp" @change="needUdp = true" label="启用UDP"></el-checkbox>
                       </el-row>
                       <el-row>
                         <el-checkbox v-model="form.appendType" label="节点类型"></el-checkbox>
@@ -97,19 +101,16 @@
                       <el-row>
                         <el-checkbox v-model="form.fdn" label="过滤非法节点"></el-checkbox>
                       </el-row>
-                      <el-button slot="reference">更多选项</el-button>
-                    </el-popover>
-                    <el-popover placement="bottom" style="margin-left: 10px">
                       <el-row>
-                        <el-checkbox v-model="form.tpl.surge.doh" label="Surge.DoH"></el-checkbox>
+                        <el-checkbox v-model="form.tpl.clash.doh" label="Clash使用DoH"></el-checkbox>
                       </el-row>
                       <el-row>
-                        <el-checkbox v-model="form.tpl.clash.doh" label="Clash.DoH"></el-checkbox>
+                        <el-checkbox v-model="form.tpl.surge.doh" label="Surge使用DoH"></el-checkbox>
                       </el-row>
                       <el-row>
-                        <el-checkbox v-model="form.insert" label="网易云"></el-checkbox>
+                        <el-checkbox v-model="form.nodeList" label="输出为Node List"></el-checkbox>
                       </el-row>
-                      <el-button slot="reference">定制功能</el-button>
+                      <el-button slot="reference">其他选项</el-button>
                     </el-popover>
                   </el-row>
                 </el-form-item>
@@ -143,7 +144,6 @@
                   >复制</el-button>
                 </el-input>
               </el-form-item>
-
               <el-form-item label-width="0px" style="margin-top: 40px; text-align: center">
                 <el-button
                   style="width: 120px"
@@ -158,31 +158,48 @@
                   :loading="loading"
                   :disabled="customSubUrl.length === 0"
                 >生成短链接</el-button>
-                <!-- <el-button style="width: 120px" type="primary" @click="surgeInstall" icon="el-icon-connection">一键导入Surge</el-button> -->
               </el-form-item>
-
               <el-form-item label-width="0px" style="text-align: center">
                 <el-button
                   style="width: 120px"
                   type="primary"
-                  @click="dialogUploadConfigVisible = true"
-                  icon="el-icon-upload"
-                  :loading="loading"
-                >上传配置</el-button>
+                  @click="clashInstall"
+                  :disabled="customSubUrl.length === 0"
+                >导入Clash</el-button>
                 <el-button
                   style="width: 120px"
                   type="primary"
-                  @click="clashInstall"
-                  icon="el-icon-connection"
+                  @click="surgeInstall"
                   :disabled="customSubUrl.length === 0"
-                >一键导入Clash</el-button>
+                >导入Surge</el-button>
               </el-form-item>
             </el-form>
           </el-container>
         </el-card>
       </el-col>
     </el-row>
-
+    <el-dialog
+      title="自定义远程配置"
+      :visible.sync="dialogCustomConfigVisible"
+      :show-close="false"
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+      width="500px"
+    >
+      <el-form label-position="left">
+        <el-form-item>
+          <el-input v-model="customConfig" placeholder="配置文件地址" />
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="customConfig = ''; dialogCustomConfigVisible = false">取 消</el-button>
+        <el-button
+          type="primary"
+          @click="confirmCustomConfig"
+          :disabled="customConfig.length === 0"
+        >确 定</el-button>
+      </span>
+    </el-dialog>
     <el-dialog
       :visible.sync="dialogUploadConfigVisible"
       :show-close="false"
@@ -191,7 +208,7 @@
       width="700px"
     >
       <div slot="title">
-        Remote config upload
+        上传远程配置
         <el-popover trigger="hover" placement="right" style="margin-left: 10px">
           <el-link type="primary" :href="sampleConfig" target="_blank" icon="el-icon-info">参考配置</el-link>
           <i class="el-icon-question" slot="reference"></i>
@@ -223,17 +240,16 @@
 <script>
 const project = process.env.VUE_APP_PROJECT
 const remoteConfigSample = process.env.VUE_APP_SUBCONVERTER_REMOTE_CONFIG
-const gayhubRelease = process.env.VUE_APP_BACKEND_RELEASE
+const githubRelease = process.env.VUE_APP_BACKEND_RELEASE
 const defaultBackend = process.env.VUE_APP_SUBCONVERTER_DEFAULT_BACKEND + '/sub?'
 const shortUrlBackend = process.env.VUE_APP_MYURLS_DEFAULT_BACKEND + '/short'
 const configUploadBackend = process.env.VUE_APP_CONFIG_UPLOAD_BACKEND + '/config/upload'
-const tgBotLink = process.env.VUE_APP_BOT_LINK
 
 export default {
   data() {
     return {
       backendVersion: "",
-      advanced: "2",
+      advanced: "1",
 
       // 是否为 PC 端
       isPC: true,
@@ -241,99 +257,148 @@ export default {
       options: {
         clientTypes: {
           Clash: "clash",
-          Surge3: "surge&ver=3",
-          Surge4: "surge&ver=4",
-          Quantumult: "quan",
-          QuantumultX: "quanx",
-          Surfboard: "surfboard",
-          Loon: "loon",
-          SSAndroid: "sssub",
-          V2Ray: "v2ray",
-          ss: "ss",
-          ssr: "ssr",
-          ssd: "ssd",
           ClashR: "clashr",
           Surge2: "surge&ver=2",
+          Surge3: "surge&ver=3",
+          Surge4: "surge&ver=4",
+          Surfboard: "surfboard",
+          Quantumult: "quan",
+          QuantumultX: "quanx",
+          SS: "ss",
+          SSR: "ssr",
+          SSD: "ssd",
+          Loon: "loon",
+          V2Ray: "v2ray",
+          SSAndroid: "sssub",
         },
-        backendOptions: [{ value: "http://127.0.0.1:25500/sub?" }],
+        backendOptions: [{ value: "https://api.dnomd343.top/subc/sub?" }],
         remoteConfig: [
           {
-            label: "universal",
+            label: "默认",
             options: [
               {
-                label: "No-Urltest",
-                value:
-                  "https://subconverter.oss-ap-southeast-1.aliyuncs.com/Rules/RemoteConfig/universal/no-urltest.ini"
-              },
-              {
-                label: "Urltest",
-                value:
-                  "https://subconverter.oss-ap-southeast-1.aliyuncs.com/Rules/RemoteConfig/universal/urltest.ini"
+                label: "缺省",
+                value: ""
               }
             ]
           },
           {
-            label: "customized",
+            label: "机场定制",
             options: [
               {
-                label: "Maying",
+                label: "ARK",
                 value:
-                  "https://subconverter.oss-ap-southeast-1.aliyuncs.com/Rules/RemoteConfig/customized/maying.ini"
-              },
-              {
-                label: "rixCloud",
-                value:
-                  "https://subconverter.oss-ap-southeast-1.aliyuncs.com/Rules/RemoteConfig/customized/rixcloud.ini"
-              },
-              {
-                label: "YoYu",
-                value:
-                  "https://subconverter.oss-ap-southeast-1.aliyuncs.com/Rules/RemoteConfig/customized/yoyu.ini"
+                  "https://sub.dnomd343.top/rules/ark.ini"
               },
               {
                 label: "Ytoo",
                 value:
-                  "https://subconverter.oss-ap-southeast-1.aliyuncs.com/Rules/RemoteConfig/customized/ytoo.ini"
+                  "https://sub.dnomd343.top/rules/ytoo.ini"
               },
               {
-                label: "NyanCAT",
+                label: "YoYu",
                 value:
-                  "https://subconverter.oss-ap-southeast-1.aliyuncs.com/Rules/RemoteConfig/customized/nyancat.ini"
+                  "https://sub.dnomd343.top/rules/yoyu.ini"
               },
               {
-                label: "Nexitally",
+                label: "Maying",
                 value:
-                  "https://subconverter.oss-ap-southeast-1.aliyuncs.com/Rules/RemoteConfig/customized/nexitally.ini"
+                  "https://sub.dnomd343.top/rules/maying.ini"
               },
               {
                 label: "SoCloud",
                 value:
-                  "https://subconverter.oss-ap-southeast-1.aliyuncs.com/Rules/RemoteConfig/customized/socloud.ini"
+                  "https://sub.dnomd343.top/rules/socloud.ini"
               },
               {
-                label: "ARK",
+                label: "rixCloud",
                 value:
-                  "https://subconverter.oss-ap-southeast-1.aliyuncs.com/Rules/RemoteConfig/customized/ark.ini"
+                  "https://sub.dnomd343.top/rules/rixcloud.ini"
               },
               {
                 label: "ssrCloud",
                 value:
-                  "https://subconverter.oss-ap-southeast-1.aliyuncs.com/Rules/RemoteConfig/customized/ssrcloud.ini"
+                  "https://sub.dnomd343.top/rules/ssrcloud.ini"
+              },
+              {
+                label: "Nexitally",
+                value:
+                  "https://sub.dnomd343.top/rules/nexitally.ini"
+              },
+              {
+                label: "NyanCAT",
+                value:
+                  "https://sub.dnomd343.top/rules/nyancat.ini"
               }
             ]
           },
           {
-            label: "Special",
+            label: "ACL4SSR",
             options: [
               {
-                label: "NeteaseUnblock(仅规则，No-Urltest)",
+                label: "ACL4SSR 默认版",
                 value:
-                  "https://subconverter.oss-ap-southeast-1.aliyuncs.com/Rules/RemoteConfig/special/netease.ini"
+                  "https://sub.dnomd343.top/rules/ACL4SSR_Online.ini"
               },
               {
-                label: "Basic(仅GEOIP CN + Final)",
+                label: "ACL4SSR_Mini 精简版",
                 value:
-                  "https://subconverter.oss-ap-southeast-1.aliyuncs.com/Rules/RemoteConfig/special/basic.ini"
+                  "https://sub.dnomd343.top/rules/ACL4SSR_Online_Mini.ini"
+              },
+              {
+                label: "ACL4SSR_Full 全分组",
+                value:
+                  "https://sub.dnomd343.top/rules/ACL4SSR_Online_Full.ini"
+              },
+              {
+                label: "ACL4SSR_NoAuto 无自动测速",
+                value:
+                  "https://sub.dnomd343.top/rules/ACL4SSR_Online_NoAuto.ini"
+              },
+              {
+                label: "ACL4SSR_NoReject 无广告拦截",
+                value:
+                  "https://sub.dnomd343.top/rules/ACL4SSR_Online_NoReject.ini"
+              },
+              {
+                label: "ACL4SSR_AdblockPlus 去广告",
+                value:
+                  "https://sub.dnomd343.top/rules/ACL4SSR_Online_AdblockPlus.ini"
+              },
+              {
+                label: "ACL4SSR_Full_Netflix 全分组 奈飞全量",
+                value: 
+                  "https://sub.dnomd343.top/rules/ACL4SSR_Online_Full_Netflix.ini"
+              },
+              {
+                label: "ACL4SSR_Full_NoAuto 全分组 无自动测速",
+                value:
+                  "https://sub.dnomd343.top/rules/ACL4SSR_Online_Full_NoAuto.ini"
+              },
+              {
+                label: "ACL4SSR_Full_AdblockPlus 全分组 去广告",
+                value:
+                  "https://sub.dnomd343.top/rules/ACL4SSR_Online_Full_AdblockPlus.ini"
+              },
+              {
+                label: "ACL4SSR_Mini_NoAuto 精简版 无自动测速",
+                value:
+                  "https://sub.dnomd343.top/rules/ACL4SSR_Online_Mini_NoAuto.ini"
+              },
+              {
+                label: "ACL4SSR_Mini_AdblockPlus 精简版 去广告",
+                value:
+                  "https://sub.dnomd343.top/rules/ACL4SSR_Online_Mini_AdblockPlus.ini"
+              },
+              {
+                label: "ACL4SSR_Mini_Fallback 精简版 带故障转移",
+                value:
+                  "https://sub.dnomd343.top/rules/ACL4SSR_Online_Mini_Fallback.ini"
+              },
+              {
+                label: "ACL4SSR_Mini_MultiMode 精简版 带故障转移 负载均衡",
+                value:
+                  "https://sub.dnomd343.top/rules/ACL4SSR_Online_Mini_MultiMode.ini"
               }
             ]
           }
@@ -374,17 +439,18 @@ export default {
       customSubUrl: "",
       curtomShortSubUrl: "",
 
+      dialogCustomConfigVisible: false,
       dialogUploadConfigVisible: false,
       uploadConfig: "",
+      customConfig: "",
       uploadPassword: "",
-      myBot: tgBotLink,
       sampleConfig: remoteConfigSample,
 
       needUdp: false, // 是否需要添加 udp 参数
     };
   },
   created() {
-    document.title = "Subscription Converter";
+    document.title = "Dnomd343 - SubConversion";
     this.isPC = this.$getOS().isPc;
 
     // 获取 url cache
@@ -394,7 +460,7 @@ export default {
   },
   mounted() {
     this.form.clientType = "clash";
-    this.notify();
+    // this.notify();
     this.getBackendVersion();
   },
   methods: {
@@ -404,8 +470,8 @@ export default {
     goToProject() {
       window.open(project);
     },
-    gotoGayhub() {
-      window.open(gayhubRelease);
+    gotoGithub() {
+      window.open(githubRelease);
     },
     gotoRemoteConfig() {
       window.open(remoteConfigSample);
@@ -516,7 +582,7 @@ export default {
     },
     makeShortUrl() {
       if (this.customSubUrl === "") {
-        this.$message.warning("请先生成订阅链接，再获取对应短链接");
+        this.$message.warning("请先生成订阅链接");
         return false;
       }
 
@@ -551,14 +617,23 @@ export default {
       const h = this.$createElement;
 
       this.$notify({
-        title: "隐私提示",
+        title: "提示",
         type: "warning",
         message: h(
           "i",
           { style: "color: teal" },
-          "各种订阅链接（短链接服务除外）生成纯前端实现，无隐私问题。默认提供后端转换服务，隐私担忧者请自行搭建后端服务。"
+          "订阅链接生成为纯前端实现，转换功能由后端服务提供"
         )
       });
+    },
+    confirmCustomConfig() {
+      if (this.customConfig === "") {
+        this.$message.error("配置链接不能为空");
+        return false;
+      }
+      this.form.remoteConfig = this.customConfig;
+      this.dialogCustomConfigVisible = false;
+      this.customConfig = "";
     },
     confirmUploadConfig() {
       if (this.uploadConfig === "") {
@@ -581,7 +656,7 @@ export default {
         .then(res => {
           if (res.data.Code === 1 && res.data.url !== "") {
             this.$message.success(
-              "远程配置上传成功，配置链接已复制到剪贴板，有效期三个月望知悉"
+              "远程配置上传成功，链接已复制到剪贴板，有效期为三个月"
             );
 
             // 自动填充至『表单-远程配置』
