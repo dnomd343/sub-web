@@ -341,14 +341,19 @@ export default {
                   "https://sub.dnomd343.top/rules/ACL4SSR_Online.ini"
               },
               {
+                label: "ACL4SSR_Full 全分组",
+                value:
+                  "https://sub.dnomd343.top/rules/ACL4SSR_Online_Full.ini"
+              },
+              {
                 label: "ACL4SSR_Mini 精简版",
                 value:
                   "https://sub.dnomd343.top/rules/ACL4SSR_Online_Mini.ini"
               },
               {
-                label: "ACL4SSR_Full 全分组",
+                label: "ACL4SSR_AdblockPlus 去广告",
                 value:
-                  "https://sub.dnomd343.top/rules/ACL4SSR_Online_Full.ini"
+                  "https://sub.dnomd343.top/rules/ACL4SSR_Online_AdblockPlus.ini"
               },
               {
                 label: "ACL4SSR_NoAuto 无自动测速",
@@ -359,11 +364,6 @@ export default {
                 label: "ACL4SSR_NoReject 无广告拦截",
                 value:
                   "https://sub.dnomd343.top/rules/ACL4SSR_Online_NoReject.ini"
-              },
-              {
-                label: "ACL4SSR_AdblockPlus 去广告",
-                value:
-                  "https://sub.dnomd343.top/rules/ACL4SSR_Online_AdblockPlus.ini"
               },
               {
                 label: "ACL4SSR_Full_Netflix 全分组 奈飞全量",
@@ -381,14 +381,14 @@ export default {
                   "https://sub.dnomd343.top/rules/ACL4SSR_Online_Full_AdblockPlus.ini"
               },
               {
-                label: "ACL4SSR_Mini_NoAuto 精简版 无自动测速",
-                value:
-                  "https://sub.dnomd343.top/rules/ACL4SSR_Online_Mini_NoAuto.ini"
-              },
-              {
                 label: "ACL4SSR_Mini_AdblockPlus 精简版 去广告",
                 value:
                   "https://sub.dnomd343.top/rules/ACL4SSR_Online_Mini_AdblockPlus.ini"
+              },
+              {
+                label: "ACL4SSR_Mini_NoAuto 精简版 无自动测速",
+                value:
+                  "https://sub.dnomd343.top/rules/ACL4SSR_Online_Mini_NoAuto.ini"
               },
               {
                 label: "ACL4SSR_Mini_Fallback 精简版 带故障转移",
@@ -465,7 +465,7 @@ export default {
   },
   methods: {
     onCopy() {
-      this.$message.success("Copied!");
+      this.$message.success("复制成功");
     },
     goToProject() {
       window.open(project);
