@@ -297,96 +297,166 @@ export default {
             options: [
               {
                 label: "ARK",
-                value: "https://api.dnomd343.top/subc/rules/Airports/ark.ini"
+                value: "https://api.343.re/subc/rules/Airports/ark.ini"
               },
               {
                 label: "Ytoo",
-                value: "https://api.dnomd343.top/subc/rules/Airports/ytoo.ini"
+                value: "https://api.343.re/subc/rules/Airports/ytoo.ini"
               },
               {
                 label: "YoYu",
-                value: "https://api.dnomd343.top/subc/rules/Airports/yoyu.ini"
+                value: "https://api.343.re/subc/rules/Airports/yoyu.ini"
               },
               {
                 label: "Maying",
-                value: "https://api.dnomd343.top/subc/rules/Airports/maying.ini"
+                value: "https://api.343.re/subc/rules/Airports/maying.ini"
               },
               {
                 label: "SoCloud",
-                value: "https://api.dnomd343.top/subc/rules/Airports/socloud.ini"
+                value: "https://api.343.re/subc/rules/Airports/socloud.ini"
               },
               {
                 label: "rixCloud",
-                value: "https://api.dnomd343.top/subc/rules/Airports/rixcloud.ini"
+                value: "https://api.343.re/subc/rules/Airports/rixcloud.ini"
               },
               {
                 label: "ssrCloud",
-                value: "https://api.dnomd343.top/subc/rules/Airports/ssrcloud.ini"
+                value: "https://api.343.re/subc/rules/Airports/ssrcloud.ini"
               },
               {
                 label: "Nexitally",
-                value: "https://api.dnomd343.top/subc/rules/Airports/nexitally.ini"
+                value: "https://api.343.re/subc/rules/Airports/nexitally.ini"
               },
               {
                 label: "NyanCAT",
-                value: "https://api.dnomd343.top/subc/rules/Airports/nyancat.ini"
+                value: "https://api.343.re/subc/rules/Airports/nyancat.ini"
               }
             ]
           },
           {
-            label: "ACL4SSR规则",
+            label: "静态规则",
             options: [
               {
                 label: "ACL4SSR 默认版",
-                value: "https://api.dnomd343.top/subc/rules/ACL4SSR/ACL4SSR.ini"
+                value: "https://api.343.re/subc/rules/ACL4SSR/ACL4SSR.ini"
               },
               {
                 label: "ACL4SSR_Full 全分组",
-                value: "https://api.dnomd343.top/subc/rules/ACL4SSR/ACL4SSR_Full.ini"
+                value: "https://api.343.re/subc/rules/ACL4SSR/ACL4SSR_Full.ini"
               },
               {
                 label: "ACL4SSR_Mini 精简版",
-                value: "https://api.dnomd343.top/subc/rules/ACL4SSR/ACL4SSR_Mini.ini"
+                value: "https://api.343.re/subc/rules/ACL4SSR/ACL4SSR_Mini.ini"
               },
               {
                 label: "ACL4SSR_AdblockPlus 去广告",
-                value: "https://api.dnomd343.top/subc/rules/ACL4SSR/ACL4SSR_AdblockPlus.ini"
+                value: "https://api.343.re/subc/rules/ACL4SSR/ACL4SSR_AdblockPlus.ini"
               },
               {
                 label: "ACL4SSR_NoAuto 无自动测速",
-                value: "https://api.dnomd343.top/subc/rules/ACL4SSR/ACL4SSR_NoAuto.ini"
+                value: "https://api.343.re/subc/rules/ACL4SSR/ACL4SSR_NoAuto.ini"
               },
               {
                 label: "ACL4SSR_NoReject 无广告拦截",
-                value: "https://api.dnomd343.top/subc/rules/ACL4SSR/ACL4SSR_NoReject.ini"
+                value: "https://api.343.re/subc/rules/ACL4SSR/ACL4SSR_NoReject.ini"
               },
               {
                 label: "ACL4SSR_Full_Netflix 全分组 奈飞全量",
-                value: "https://api.dnomd343.top/subc/rules/ACL4SSR/ACL4SSR_Full_Netflix.ini"
+                value: "https://api.343.re/subc/rules/ACL4SSR/ACL4SSR_Full_Netflix.ini"
               },
               {
                 label: "ACL4SSR_Full_NoAuto 全分组 无自动测速",
-                value: "https://api.dnomd343.top/subc/rules/ACL4SSR/ACL4SSR_Full_NoAuto.ini"
+                value: "https://api.343.re/subc/rules/ACL4SSR/ACL4SSR_Full_NoAuto.ini"
               },
               {
                 label: "ACL4SSR_Full_AdblockPlus 全分组 去广告",
-                value: "https://api.dnomd343.top/subc/rules/ACL4SSR/ACL4SSR_AdblockPlus.ini"
+                value: "https://api.343.re/subc/rules/ACL4SSR/ACL4SSR_Full_AdblockPlus.ini"
               },
               {
                 label: "ACL4SSR_Mini_AdblockPlus 精简版 去广告",
-                value: "https://api.dnomd343.top/subc/rules/ACL4SSR/ACL4SSR_Mini_AdblockPlus.ini"
+                value: "https://api.343.re/subc/rules/ACL4SSR/ACL4SSR_Mini_AdblockPlus.ini"
               },
               {
                 label: "ACL4SSR_Mini_NoAuto 精简版 无自动测速",
-                value: "https://api.dnomd343.top/subc/rules/ACL4SSR/ACL4SSR_Mini_NoAuto.ini"
+                value: "https://api.343.re/subc/rules/ACL4SSR/ACL4SSR_Mini_NoAuto.ini"
               },
               {
                 label: "ACL4SSR_Mini_Fallback 精简版 带故障转移",
-                value: "https://api.dnomd343.top/subc/rules/ACL4SSR/ACL4SSR_Mini_Fallback.ini"
+                value: "https://api.343.re/subc/rules/ACL4SSR/ACL4SSR_Mini_Fallback.ini"
               },
               {
                 label: "ACL4SSR_Mini_MultiMode 精简版 带故障转移 负载均衡",
-                value: "https://api.dnomd343.top/subc/rules/ACL4SSR/ACL4SSR_Mini_MultiMode.ini"
+                value: "https://api.343.re/subc/rules/ACL4SSR/ACL4SSR_Mini_MultiMode.ini"
+              }
+            ]
+          },
+          {
+            label: "Github同步",
+            options: [
+              {
+                label: "ACL4SSR 默认版",
+                value:
+                  "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online.ini"
+              },
+              {
+                label: "ACL4SSR_Full 全分组",
+                value:
+                  "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_Full.ini"
+              },
+              {
+                label: "ACL4SSR_Mini 精简版",
+                value:
+                  "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_Mini.ini"
+              },
+              {
+                label: "ACL4SSR_AdblockPlus 去广告",
+                value:
+                  "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_AdblockPlus.ini"
+              },
+              {
+                label: "ACL4SSR_NoAuto 无自动测速",
+                value:
+                  "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_NoAuto.ini"
+              },
+              {
+                label: "ACL4SSR_NoReject 无广告拦截",
+                value:
+                  "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_NoReject.ini"
+              },
+              {
+                label: "ACL4SSR_Full_Netflix 全分组 奈飞全量",
+                value:
+                  "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_Full_Netflix.ini"
+              },
+              {
+                label: "ACL4SSR_Full_NoAuto 全分组 无自动测速",
+                value:
+                  "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_Full_NoAuto.ini"
+              },
+              {
+                label: "ACL4SSR_Full_AdblockPlus 全分组 去广告",
+                value:
+                  "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_Full_AdblockPlus.ini"
+              },
+              {
+                label: "ACL4SSR_Mini_AdblockPlus 精简版 去广告",
+                value:
+                  "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_Mini_AdblockPlus.ini"
+              },
+              {
+                label: "ACL4SSR_Mini_NoAuto 精简版 无自动测速",
+                value:
+                  "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_Mini_NoAuto.ini"
+              },
+              {
+                label: "ACL4SSR_Mini_Fallback 精简版 带故障转移",
+                value:
+                  "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_Mini_Fallback.ini"
+              },
+              {
+                label: "ACL4SSR_Mini_MultiMode 精简版 带故障转移 负载均衡",
+                value:
+                  "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_Mini_MultiMode.ini"
               }
             ]
           }
